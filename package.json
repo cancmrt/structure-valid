@@ -1,0 +1,22 @@
+{
+  "name": "structure-valid",
+  "version": "0.0.7",
+  "description": "Json object structre validator, control your restful api request body. Take your request body send to structure valid with a determinate command and library looking your skelaton and say structure valid or not. Object structre will determinate by you !",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "structure",
+    "validator",
+    "valid",
+    "object",
+    "keys"
+  ],
+  "author": "cancmrt <cancm91@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "jsonfile": "^4.0.0",
+    "request": "^2.83.0"
+  }
+}
