@@ -93,7 +93,7 @@ function jsonStringValidator( jsonStr ) {
   }
 }
 
-function tokenHeaderValidator( headerValue ) {
+function tokenBearerHeaderValidator( headerValue ) {
   if ( headerValue ) {
     headerValue = headerValue.split( ' ' );
     if ( headerValue[ 0 ] && headerValue[ 0 ] === 'Bearer' ) {
@@ -123,59 +123,10 @@ function tokenHeaderValidator( headerValue ) {
     };
   }
 }
-function requestOnUsers( url, token, callback ) {
-  request.get( url + '/' + token,
-    function resFunc( reqErr, reqRes, reqBody ) {
-      if ( reqErr ) {
-        let resMes = {
-          microservice: 'forms',
-          status: 'error',
-          code: '004-400-003',
-          message: 'users service request failed in forms service',
-          error: reqErr
-        };
-        callback( resMes, null );
-
-      }
-      let jsonValidatorResults,
-        userInfo,
-        resSuccessMes;
-      jsonValidatorResults = jsonStringValidator( reqBody );
-      if ( jsonValidatorResults[ 'status' ] != 'success' ) {
-        let resMes = {
-          microservice: 'forms',
-          status: 'error',
-          code: '004-400-004',
-          message: 'users response json structure not valid',
-          error: jsonValidatorResults[ 'errJson' ]
-        };
-        callback( resMes, null );
-      } else {
-        reqBody = jsonValidatorResults[ 'json' ];
-      }
-      userInfo = reqBody;
-      callback( null, reqBody );
-    });
-}
-function getUserInfo( token, callback ) {
-  let tokenValid = tokenHeaderValidator( token );
-  if ( tokenValid[ 'status' ] == 'success' ) {
-    requestOnUsers( tokenValid[ 'token' ],
-      function uInfo( errUser, successUser ) {
-        if ( errUser ) {
-          callback( errUser, null );
-        } else {
-          callback( null, successUser );
-        }
-      });
-  } else {
-    callback( tokenValid, null );
-  }
-}
 
 module.exports = {
   structureValidator: structureValidator,
   jsonStringValidator: jsonStringValidator,
-  getUserInfo: getUserInfo,
+  tokenBearerHeaderValidator: tokenBearerHeaderValidator,
   setStructure: setStructure
 }
